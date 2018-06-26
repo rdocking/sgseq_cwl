@@ -22,7 +22,7 @@ inputs:
 outputs:
   merged_bam_info_file:
     type: File
-    outputSource: merged_bam_info_file/merged_bam_info_file
+    outputSource: merge_bam_info_files/merged_bam_info_file
 
 steps:
   get_bam_info:
@@ -36,7 +36,7 @@ steps:
         valueFrom: $(inputs.bam_file.basename).bam_info.tsv
     out: [bam_info_file]
 
-  merged_bam_info_file:
+  merge_bam_info_files:
     run: merge_bam_info.cwl
     in:
       output_prefix: output_prefix
