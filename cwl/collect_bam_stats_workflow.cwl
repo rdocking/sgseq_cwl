@@ -26,7 +26,7 @@ outputs:
 
 steps:
   get_bam_info:
-    run: run_bamInfo_single_sample.cwl
+    run: get_bam_info.cwl
     scatter: [sample_name, bam_file]
     scatterMethod: dotproduct 
     in:
@@ -35,3 +35,8 @@ steps:
       out_file: 
         valueFrom: $(inputs.bam_file.basename).bam_info.tsv
     out: [bam_info_file]
+
+  merge_bam_info:
+    run: merge_bam_info.cwl
+    in:
+      bam_files: get_bam_info/bam_info_file
