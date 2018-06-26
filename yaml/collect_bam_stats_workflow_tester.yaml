@@ -1,0 +1,7 @@
+sample_name:
+  - foo
+  - bar
+bam_file:
+  - {class: File, path: /path/to/sample1.bam}
+  - {class: File, path: /path/to/sample2.bam}
+output_prefix: sgseq_workflow_tester
