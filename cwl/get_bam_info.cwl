@@ -4,7 +4,7 @@ cwlVersion: v1.0
 baseCommand:
   - Rscript
   - '--vanilla'
-  - get_bam_info.r
+  - /projects/rdocking_prj/software/sgseq_cwl/r/get_bam_info.r
 
 inputs:
   - id: sample_name

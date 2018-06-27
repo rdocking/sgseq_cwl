@@ -4,7 +4,7 @@ cwlVersion: v1.0
 baseCommand:
   - Rscript
   - '--vanilla'
-  - merge_bam_info.r
+  - /projects/rdocking_prj/software/sgseq_cwl/r/merge_bam_info.r
 
 inputs:
   - id: output_prefix
