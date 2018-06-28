@@ -17,24 +17,25 @@ inputs:
     type:
       type: array
       items: File
-      secondaryFiles:
-        - .bai
+    secondaryFiles:
+      - .bai
   chromosome:
     type:
       type: array
       items: string
+  output_prefix: string
 
 outputs:
   txfeatures_out:
     type: File
-    outputSource: merge_txfeatures/annotated_splice_graph_file
+    outputSource: merge_txfeatures/merged_tx_features
 
 steps:
 
   txfeatures:
-    run: run_txfeatures_by_chromosome.cwl
-    scatter: [chromosome]
-    scatterMethod: dotproduct
+    run: predict_tx_features.cwl
+    scatter: [bam_file, chromosome]
+    scatterMethod: flat_crossproduct
     in: 
       bam_info: bam_info
       bam_file: bam_file
@@ -44,13 +45,15 @@ steps:
     out: [txfeatures_out]
 
   merge_txfeatures:
-    run: merge_txfeatures.cwl
+    run: merge_tx_features.cwl
     in: 
-      transcript_db: transcript_db
-      output_prefix: sample_name
-      splice_graph_type: splice_graph_type
+      transcript_db:
+        valueFrom: "none"
+      output_prefix: output_prefix
+      splice_graph_type:
+        valueFrom: "none"
       merge_mode:
         valueFrom: "txfeatures"
       txfeatures_files: txfeatures/txfeatures_out
-    out: [annotated_splice_graph_file]
+    out: [merged_tx_features]
 

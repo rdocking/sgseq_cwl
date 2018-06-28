@@ -4,40 +4,40 @@ cwlVersion: v1.0
 baseCommand:
   - Rscript
   - '--vanilla'
-  - >-
-    /projects/karsanlab/rdocking/KARSANBIO-108_splicing/KARSANBIO-1462_sgseq_test/lib/merge_txfeatures.R
+  - /projects/rdocking_prj/software/sgseq_cwl/r/predict_tx_features.r
 
 inputs:
-  - id: transcript_db
+  - id: bam_info
     type: File
     inputBinding:
       position: 1
-  - id: output_prefix
-    type: string
+  - id: bam_file
+    type: File
     inputBinding:
       position: 2
-  - id: splice_graph_type
+    secondaryFiles: 
+    - .bai
+  - id: chromosome
     type: string
     inputBinding:
       position: 3
-  - id: merge_mode
+      prefix: --chromosome
+  - id: out_file
     type: string
     inputBinding:
       position: 4
-  - id: txfeatures_files
-    type: File[]
-    inputBinding:
-      position: 5
-      prefix: --txfeatures_files
 
 outputs:
-  - id: merged_tx_features
+  - id: txfeatures_out
     type: File
     outputBinding:
-      glob: $(inputs.output_prefix).*.RData
+      glob: $(inputs.out_file)
+
+arguments: ['--cpus', $(runtime.cores)]
 
 requirements:
   - class: ResourceRequirement
     ramMin: 42000
+    coresMin: 1
     tmpdirMin: 40000
-
+  - class: InlineJavascriptRequirement
