@@ -47,13 +47,7 @@ steps:
   merge_txfeatures:
     run: merge_tx_features.cwl
     in: 
-      transcript_db:
-        valueFrom: "none"
       output_prefix: output_prefix
-      splice_graph_type:
-        valueFrom: "none"
-      merge_mode:
-        valueFrom: "txfeatures"
       txfeatures_files: txfeatures/txfeatures_out
     out: [merged_tx_features]
 
