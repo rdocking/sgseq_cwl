@@ -2,6 +2,7 @@
 
 # Parse command-line args
 library(argparser, quietly = TRUE)
+library(readr)
 p <- arg_parser("Run SGSeq::predictTxFeatures for a single sample")
 p <- add_argument(p, 'bam_info', type = "character", help = 'BAM info file (from SGSeq::getBamInfo)')
 p <- add_argument(p, 'bam_file', type = "character", help = 'BAM file')
@@ -17,12 +18,16 @@ suppressPackageStartupMessages(require(SGSeq))
 suppressPackageStartupMessages(require(BSgenome.Hsapiens.UCSC.hg19))
 
 # Read in the sample info
-bam_info.df <- 
-  read.table(argv$bam_info, header = TRUE, stringsAsFactors = FALSE)
+bam_info.df <- read_tsv(argv$bam_info)
 
 # Update the data frame with the provided path of the bam_file
 # This is a bit hacky, but I can't figure out a better way to get the current BAM path into the DF
-bam_info.df[1,]$file_bam <- argv$bam_file
+# Also, filter down to the single BAM file provided - note that this _also_ may be error prone
+#  since it relies on the last path component being the same
+bam_base_name <- base::basename(argv$bam_file)
+condition <- base::basename(bam_info.df$file_bam) == bam_base_name
+bam_info.df <- bam_info.df[condition,]
+bam_info.df$file_bam <- argv$bam_file
 
 # Generate GRanges for just hg19 standard chromosomes
 # TODO is to avoid this hard-coding
