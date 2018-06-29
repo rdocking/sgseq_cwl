@@ -4,35 +4,39 @@ cwlVersion: v1.0
 baseCommand:
   - Rscript
   - '--vanilla'
-  - /projects/rdocking_prj/software/sgseq_cwl/r/generate_splice_graph.r
+  - /projects/rdocking_prj/software/sgseq_cwl/r/get_sg_feature_counts.r
 
 inputs:
-  - id: transcript_db
+  - id: bam_info
     type: File
     inputBinding:
       position: 1
-  - id: output_prefix
-    type: string
+  - id: bam_file
+    type: File
     inputBinding:
       position: 2
-  - id: splice_graph_type
-    type: string
+    secondaryFiles: 
+    - .bai
+  - id: splice_graph
+    type: File
     inputBinding:
       position: 3
-  - id: txfeatures_files
-    type: File[]
+  - id: out_file
+    type: string
     inputBinding:
       position: 4
-      prefix: --txfeatures_files
 
 outputs:
-  - id: annotated_splice_graph_file
+  - id: sg_featurecounts_out
     type: File
     outputBinding:
-      glob: $(inputs.output_prefix).sg_features.RData
+      glob: $(inputs.out_file)
+
+arguments: ['--cpus', $(runtime.cores)]
 
 requirements:
   - class: ResourceRequirement
     ramMin: 42000
+    coresMin: 1
     tmpdirMin: 40000
-
+  - class: InlineJavascriptRequirement

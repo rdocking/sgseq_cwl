@@ -22,7 +22,7 @@ outputs:
     outputSource: generate_transcript_db/transcript_db_file
   splice_graph_features_file:
     type: File
-    outputSource: generate_splice_graph/annotated_splice_graph_file
+    outputSource: generate_splice_graph_features/annotated_splice_graph_file
   splice_graph_variants_file:
     type: File
     outputSource: generate_splice_graph_variants/splice_graph_variants_file
@@ -36,8 +36,8 @@ steps:
         valueFrom: $(inputs.gtf_file.basename).transcript_db.RData
     out: [transcript_db_file]
 
-  generate_splice_graph:
-    run: generate_splice_graph.cwl
+  generate_splice_graph_features:
+    run: generate_splice_graph_features.cwl
     in: 
       transcript_db: generate_transcript_db/transcript_db_file
       output_prefix: output_prefix
