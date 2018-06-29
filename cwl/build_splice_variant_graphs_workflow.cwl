@@ -25,7 +25,7 @@ outputs:
     outputSource: generate_splice_graph/annotated_splice_graph_file
   splice_graph_variants_file:
     type: File
-    outputSource: splice_graph_variants/splice_graph_variants_file
+    outputSource: generate_splice_graph_variants/splice_graph_variants_file
 
 steps:
   generate_transcript_db:
@@ -45,9 +45,9 @@ steps:
       txfeatures_files: tx_features_files
     out: [annotated_splice_graph_file]
 
-  splice_graph_variants:
+  generate_splice_graph_variants:
     run: find_splice_graph_variants.cwl
     in: 
-      splice_graph: merge_txfeatures/annotated_splice_graph_file
+      splice_graph: generate_splice_graph/annotated_splice_graph_file
       output_prefix: output_prefix
     out: [splice_graph_variants_file]
