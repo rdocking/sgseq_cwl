@@ -19,7 +19,9 @@ inputs:
 
 outputs:
   - id: merged_tx_features
-    type: File
+    type: 
+      type: array
+      items: File
     outputBinding:
       glob: $(inputs.output_prefix).tx_features.RData
 

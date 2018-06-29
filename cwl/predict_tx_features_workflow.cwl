@@ -25,9 +25,14 @@ inputs:
       items: string
   output_prefix: string
 
+# Note - this will be a single file from this workflow, 
+#  but this is specified as an array so we can have the downstream
+#  workflow start from sets of tx_feature files
 outputs:
-  txfeatures_out:
-    type: File
+  merged_txfeatures_out:
+    type:
+      type: array 
+      items: File
     outputSource: merge_txfeatures/merged_tx_features
 
 steps:

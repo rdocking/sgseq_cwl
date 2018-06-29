@@ -17,9 +17,6 @@ inputs:
       items: File
 
 outputs:
-  transcript_db:
-    type: File
-    outputSource: generate_transcript_db/transcript_db_file
   splice_graph_features_file:
     type: File
     outputSource: generate_splice_graph_features/annotated_splice_graph_file
@@ -48,6 +45,6 @@ steps:
   generate_splice_graph_variants:
     run: find_splice_graph_variants.cwl
     in: 
-      splice_graph: generate_splice_graph/annotated_splice_graph_file
+      splice_graph: generate_splice_graph_features/annotated_splice_graph_file
       output_prefix: output_prefix
     out: [splice_graph_variants_file]
